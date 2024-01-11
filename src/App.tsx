@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { useEffect, useState } from 'react';
+import { auth } from './firebase';
 
 import Home from './routes/Home';
 import Profile from './routes/Profile';
@@ -9,13 +10,17 @@ import Login from './routes/Login';
 import CreateAccount from './routes/CreateAccount';
 import reset from 'styled-reset';
 import LoadingScreen from './components/LoadingScreen';
-import { auth } from './firebase';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // router setting
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: '',
@@ -69,11 +74,17 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Wrapper>
       <GlobalStyles />
       {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
-    </>
+    </Wrapper>
   );
 }
 
 export default App;
+
+const Wrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+`;
