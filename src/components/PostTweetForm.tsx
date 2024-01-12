@@ -59,7 +59,12 @@ const PostTweetForm = () => {
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     if (files && files.length === 1) {
-      setFile(files[0]);
+      if (files[0].size / 1024 / 1024 > 2) {
+        confirm('Please reduce the size of the picture!');
+        return;
+      } else {
+        setFile(files[0]);
+      }
     }
   };
 
