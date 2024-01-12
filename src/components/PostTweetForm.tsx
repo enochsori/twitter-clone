@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { auth, db } from '../firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { auth, db, storage } from '../firebase';
+import { addDoc, collection, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const PostTweetForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,14 +19,32 @@ const PostTweetForm = () => {
     try {
       setIsLoading(true);
 
-      await addDoc(collection(db, 'tweets'), {
+      // update firestorage for tweet
+      const doc = await addDoc(collection(db, 'tweets'), {
         tweet,
         createdAt: Date.now(),
         username: user.displayName || 'Anonymous',
         userId: user.uid,
       });
 
+      // update photo to the storage
+      if (file) {
+        const locationRef = ref(
+          storage,
+          `tweets/${user.uid}-${user.displayName}/${doc.id}`
+        );
+        const result = await uploadBytes(locationRef, file);
+        const url = await getDownloadURL(result.ref);
+
+        // update the tweet with photo url
+        await updateDoc(doc, {
+          photo: url,
+        });
+      }
+
+      // reset all the inputs
       setTweet('');
+      setFile(null);
     } catch (error) {
       console.log(error);
     } finally {
@@ -47,6 +66,7 @@ const PostTweetForm = () => {
   return (
     <Form onSubmit={(event) => onSubmit(event)}>
       <TextArea
+        required
         rows={5}
         maxLength={180}
         placeholder='What is happening?!'
