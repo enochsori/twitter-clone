@@ -10,6 +10,7 @@ import {
   Input,
   ErrorMessage,
   Switcher,
+  FindPassword,
 } from '../components/auth-component';
 import GithubButton from '../components/GithubButton';
 
@@ -55,6 +56,8 @@ const Login = () => {
     }
   };
 
+  const onResetPassword = () => {};
+
   return (
     <Wrapper>
       <Title>Log into 𝕏 </Title>
@@ -83,6 +86,8 @@ const Login = () => {
       </Form>
 
       {error !== '' && <ErrorMessage>{error}</ErrorMessage>}
+
+      <FindPassword onClick={onResetPassword}>Find my password</FindPassword>
 
       <Switcher>
         Don't have an account?{' '}

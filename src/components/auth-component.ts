@@ -27,6 +27,8 @@ export const Input = styled.input`
   &[type='submit'] {
     cursor: pointer;
     transition: all 200ms ease-in;
+    background-color: #1d9bf0;
+    color: white;
 
     &:hover {
       opacity: 0.8;
@@ -45,5 +47,15 @@ export const Switcher = styled.div`
   margin-top: 20px;
   a {
     color: #1d9bf0;
+  }
+`;
+
+export const FindPassword = styled.div`
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all 200ms ease-in;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
   }
 `;
