@@ -11,7 +11,7 @@ import Tweet from './tweet';
 import { useState, useEffect } from 'react';
 import { Unsubscribe } from 'firebase/auth';
 
-export interface Tweet {
+export interface TweetInterFace {
   photo?: string;
   tweet: string;
   userId: string;
@@ -21,10 +21,9 @@ export interface Tweet {
 }
 
 const TimeLine = () => {
-  const [tweets, setTweets] = useState<Tweet[]>([]);
+  const [tweets, setTweets] = useState<TweetInterFace[]>([]);
 
   //   query to get tweets from firebase
-
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
 
@@ -87,4 +86,9 @@ const TimeLine = () => {
 
 export default TimeLine;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  overflow-y: scroll;
+`;

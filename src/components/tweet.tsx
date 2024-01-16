@@ -40,9 +40,9 @@ const Tweet = ({ username, photo, tweet, userId, id }: Tweet) => {
         <UserName>{username}</UserName>
         <Payload>{tweet}</Payload>
         {user?.uid === userId && (
-          <DeleteButton onClick={onDelete}>
+          <Button onClick={onDelete}>
             {isLoading ? 'Deleting...' : 'Delete'}
-          </DeleteButton>
+          </Button>
         )}
       </Column>
 
@@ -81,7 +81,7 @@ const Photo = styled.img`
   height: 100px;
   border-radius: 15px;
 `;
-const DeleteButton = styled.button`
+const Button = styled.button`
   background-color: tomato;
   color: white;
   font-weight: 600;
