@@ -16,8 +16,10 @@ import Tweet from '../components/tweet';
 
 const Profile = () => {
   const user = auth.currentUser;
+
   const [avatar, setAvatar] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<TweetInterFace[]>([]);
+  const [userName, setUserName] = useState(user?.displayName);
 
   const onChangeAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -40,6 +42,14 @@ const Profile = () => {
       // update user profile
       await updateProfile(user, { photoURL: avatarUrl });
     }
+  };
+
+  const onEditUserName = () => {
+    const userName = prompt('input new user name');
+    console.log(userName);
+    if (!user || userName === '') return;
+    updateProfile(user, { displayName: userName });
+    setUserName(userName);
   };
 
   const fetchTweets = async () => {
@@ -99,7 +109,10 @@ const Profile = () => {
         accept='image/*'
         onChange={(event) => onChangeAvatar(event)}
       />
-      <Name>{user?.displayName ?? 'Anonymous'}</Name>
+      <UserContainer>
+        <Name>{user?.displayName ? userName : 'Anonymous'}</Name>
+        <EditButton onClick={onEditUserName}>Edit</EditButton>
+      </UserContainer>
 
       <Tweets>
         {tweets.map((tweet) => (
@@ -142,9 +155,22 @@ const AvatarImg = styled.img`
 const AvatarInput = styled.input`
   display: none;
 `;
+const UserContainer = styled.div``;
+
 const Name = styled.span`
   font-size: 22px;
   font-weight: 600;
+`;
+
+const EditButton = styled.button`
+  cursor: pointer;
+  margin-left: 10px;
+  border: none;
+  background-color: transparent;
+  color: white;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const Tweets = styled.section`
