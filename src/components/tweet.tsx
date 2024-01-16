@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { auth, db, storage } from '../firebase';
-import { Tweet } from './time-line';
+import { TweetInterFace } from './time-line';
 import styled from 'styled-components';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 
-const Tweet = ({ username, photo, tweet, userId, id }: Tweet) => {
+const Tweet = ({ username, photo, tweet, userId, id }: TweetInterFace) => {
   const [isLoading, setIsLoading] = useState(false);
   const user = auth.currentUser;
 

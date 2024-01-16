@@ -23,7 +23,7 @@ const CreateAccount = () => {
 
   const [error, setError] = useState('');
 
-  const onInputChange = (event) => {
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = event;
 
     if (target.name === 'name') {
