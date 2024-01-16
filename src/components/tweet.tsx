@@ -1,15 +1,52 @@
+import { useState } from 'react';
+import { auth, db, storage } from '../firebase';
 import { Tweet } from './time-line';
 import styled from 'styled-components';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
 
-const Tweet = ({ username, photo, tweet }: Tweet) => {
+const Tweet = ({ username, photo, tweet, userId, id }: Tweet) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const user = auth.currentUser;
+
+  const onDelete = async () => {
+    // Check user's intention
+    const isConfirmed = confirm(
+      'This is permanent action, Are you sure to delete this tweet?'
+    );
+
+    if (!isConfirmed || user?.uid !== userId) return;
+
+    try {
+      setIsLoading(true);
+
+      // query for delete the tweet
+      await deleteDoc(doc(db, 'tweets', id));
+      // delete photo
+      if (photo !== undefined) {
+        const photoRef = ref(storage, `tweets/${user?.uid}/${id}`);
+        await deleteObject(photoRef);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Wrapper>
       <Column>
         <UserName>{username}</UserName>
         <Payload>{tweet}</Payload>
+        {user?.uid === userId && (
+          <DeleteButton onClick={onDelete}>
+            {isLoading ? 'Deleting...' : 'Delete'}
+          </DeleteButton>
+        )}
       </Column>
 
-      {photo !== '' && (
+      {photo !== undefined && (
         <Column>
           <Photo src={photo} />
         </Column>
@@ -43,4 +80,14 @@ const Photo = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 15px;
+`;
+const DeleteButton = styled.button`
+  background-color: tomato;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
 `;
