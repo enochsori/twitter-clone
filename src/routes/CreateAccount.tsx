@@ -27,7 +27,7 @@ const CreateAccount = () => {
     const { target } = event;
 
     if (target.name === 'name') {
-      setName(target.value);
+    setName(target.value);
     } else if (target.name === 'email') {
       setEmail(target.value);
     } else if (target.name === 'password') {

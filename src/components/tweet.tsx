@@ -37,8 +37,10 @@ const Tweet = ({ username, photo, tweet, userId, id }: TweetInterFace) => {
   return (
     <Wrapper>
       <Column>
-        <UserName>{username}</UserName>
-        <Payload>{tweet}</Payload>
+        <WrapperTop>
+          <UserName>{username}</UserName>
+          <Payload>{tweet}</Payload>
+        </WrapperTop>
         {user?.uid === userId && (
           <Button onClick={onDelete}>
             {isLoading ? 'Deleting...' : 'Delete'}
@@ -64,9 +66,16 @@ const Wrapper = styled.div`
   border: 1px solid white;
   border-radius: 15px;
   background-color: transparent;
-
   margin-bottom: 10px;
+
+  :first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 `;
+const WrapperTop = styled.div``;
+
 const Column = styled.div``;
 const UserName = styled.span`
   font-weight: 600;
@@ -86,8 +95,10 @@ const Button = styled.button`
   color: white;
   font-weight: 600;
   font-size: 12px;
+  width: 100px;
   padding: 5px 10px;
   text-transform: uppercase;
   border-radius: 5px;
+
   cursor: pointer;
 `;
