@@ -1,6 +1,7 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth } from '../firebase';
+import { VscGithubInverted } from 'react-icons/vsc';
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -60,6 +61,13 @@ const Layout = () => {
             />
           </svg>
         </MenuItem>
+
+        <GithubLink
+          href='https://github.com/enochsori/twitter-clone'
+          target='_blank'
+        >
+          <VscGithubInverted />
+        </GithubLink>
       </Menu>
       {/* protected page */}
       <Outlet />
@@ -84,6 +92,24 @@ const Menu = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 20px;
+`;
+
+const GithubLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: white;
+  font-size: 40px;
+
+  transition: all 200ms ease-in-out;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 const MenuItem = styled.div`
